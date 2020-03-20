@@ -42,7 +42,7 @@ public class MemberController{
     
     @RequestMapping(value = "join", method = RequestMethod.POST)
     public String member_joinPro(Member newMember, Model m) throws Exception
-    {
+    {  
     	System.out.println(newMember);
     	
     	newMember.setProfile("profile.png");

@@ -36,9 +36,9 @@ public class Member implements Serializable{
 	
     public String getPasswd()
     {
-        return passwd;
+        return passwd; 
     }
-    
+       
     public String getName()
     {
         return name;
