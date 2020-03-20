@@ -56,7 +56,7 @@ img {
 					<img id="profileImg" src="<%=request.getContextPath()%>/uploadFile/${member.profile}">
 					<br>
 					<style>#profile {display: none;}</style>
-					<input type='file' id="profile" name="profile" value="${member.profile}" onchange="readyImg(this)"> 
+					<input type='file' id="profile" name="uploadfile" value="${member.profile}" onchange="readyImg(this)"> 
 					<input type="button" value="프로필 변경" onclick="document.getElementById('profile').click();" > 
 				</td>
 			</tr>

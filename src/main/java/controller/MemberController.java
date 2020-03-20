@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import exception.DuplicateldException;
 import exception.LoginFailException;
@@ -29,135 +33,120 @@ public class MemberController {
 	@Autowired
 	MybatisMemberDao dbPro;
 
-	public void initProcess(HttpServletRequest request, HttpServletResponse response) {
-	}
-
-	@RequestMapping(value = "join", method = RequestMethod.GET)
-	public String member_joinForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		return "member/joinForm";
-	}
-
-	/*@RequestMapping(value = "join", method = RequestMethod.POST)
-	public String member_joinPro(HttpServletRequest req, HttpServletResponse response) throws Exception {
-		Member newMember = new Member(req.getParameter("email"), req.getParameter("name"), req.getParameter("passwd"),
-				req.getParameter("confirmpasswd"), "profile.png");
-
-		Map<String, Boolean> errors = new HashMap<>();
-		req.setAttribute("errors", errors);
-
-		newMember.vaildate(errors);
-
-		if (!errors.isEmpty())
-			return "member/joinForm";
-		Connection conn = null;
-		try {
-			Member member = dbPro.selectById(newMember.getEmail());
-			if (member != null) {
-				JdbcUtil.rollback(conn);
-				throw new DuplicateldException();
-			}
-			dbPro.insert(newMember);
-
-		} catch (DuplicateldException e) {
-			errors.put("duplicateId", Boolean.TRUE);
-			return "member/joinForm";
-		}
-		return "member/loginForm";
-
-	}*/
-	
-	@RequestMapping(value = "join", method = RequestMethod.POST)
-	public String member_joinPro(HttpServletRequest req, Member newMember) throws Exception {		
-		newMember.setProfile("profile.png");
-
-		Map<String, Boolean> errors = new HashMap<>();
-		req.setAttribute("errors", errors);
-
-		newMember.vaildate(errors);
-
-		if (!errors.isEmpty())
-			return "member/joinForm";
-		Connection conn = null;
-		try {
-			Member member = dbPro.selectById(newMember.getEmail());
-			if (member != null) {
-				JdbcUtil.rollback(conn);
-				throw new DuplicateldException();
-			}
-			dbPro.insert(newMember);
-
-		} catch (DuplicateldException e) {
-			errors.put("duplicateId", Boolean.TRUE);
-			return "member/joinForm";
-		}
-		return "member/loginForm";
-
-	}
-
-	@RequestMapping(value = "login")
-	public String member_loginForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		return "member/loginForm";
-	}
-
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String member_loginPro(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		HttpSession session = req.getSession();
-
-		String email = trim(req.getParameter("email"));
-		String passwd = trim(req.getParameter("passwd"));
-
-		Member member = null;
-
-		Map<String, Boolean> errors = new HashMap<>();
-		req.setAttribute("errors", errors);
-
-		if (email == null || email.isEmpty())
-			errors.put("email", Boolean.TRUE);
-		if (passwd == null || passwd.isEmpty())
-			errors.put("password", Boolean.TRUE);
-
-		if (!errors.isEmpty())
-			return "member/loginForm";
-
-		try {
-			member = dbPro.selectById(email);
-			if (member == null)
-				throw new LoginFailException();
-			if (!member.matchPassword(passwd))
-				throw new LoginFailException();
-
-			User user = new User(member.getEmail(), member.getName());
-			req.getSession().setAttribute("authUser", user);
-
-		} catch (LoginFailException e) {
-			errors.put("idOrPwNotMatch", Boolean.TRUE);
-			return "member/loginForm";
-		}
-
-		session.setAttribute("memNum", member.getMemNum());
-		req.setAttribute("memNum", session.getAttribute("memNum"));
-
-		return "redirect:/main";
-	}
-
-	private String trim(String str) {
-		return str == null ? null : str.trim();
-	}
-
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String member_logout(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		return "redirect:/main";
-	}
+	public void initProcess(HttpServletRequest request,
+            HttpServletResponse response)
+    {   }    
+    
+    @RequestMapping(value = "join", method = RequestMethod.GET)
+    public String member_joinForm(HttpServletRequest req,
+            HttpServletResponse res) throws Exception
+    {
+        return "member/joinForm";
+    }
+    
+    @RequestMapping(value = "join", method = RequestMethod.POST)
+    public String member_joinPro(Member newMember, Model m) throws Exception
+    {  
+       System.out.println(newMember);
+       
+       newMember.setProfile("profile.png");
+        Map<String, Boolean> errors = new HashMap<>();
+         m.addAttribute("errors", errors);
+         
+         newMember.vaildate(errors);
+         
+         if (!errors.isEmpty()) return "member/joinForm";
+         Connection conn = null;
+         try
+         {            
+            Member member = dbPro.selectById(newMember.getEmail());
+        if (member != null)
+        {
+            JdbcUtil.rollback(conn);
+            throw new DuplicateldException();
+        }
+        dbPro.insert(newMember);
+        
+      
+         }catch (DuplicateldException e)
+         {
+             errors.put("duplicateId", Boolean.TRUE);
+             return "member/joinForm";
+         }
+            return "member/loginForm";
+            
+        }
+      
+    @RequestMapping(value = "login")
+    public String member_loginForm(HttpServletRequest req,
+            HttpServletResponse res) throws Exception
+    {
+        return "member/loginForm";
+    }
+    
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String member_loginPro(HttpServletRequest req,String email,String passwd) throws Exception
+    {
+       HttpSession session = req.getSession();
+       
+      /*  String email = trim(req.getParameter("email"));
+        String passwd = trim(req.getParameter("passwd"));
+        */
+        Member member=null;
+        
+        Map<String, Boolean> errors = new HashMap<>();
+        req.setAttribute("errors", errors);
+        
+        if (email == null || email.isEmpty()) errors.put("email", Boolean.TRUE);
+        if (passwd == null || passwd.isEmpty())
+            errors.put("password", Boolean.TRUE);
+        
+        if (!errors.isEmpty()) 
+            return "member/loginForm";
+        
+        try
+        {           
+            member = dbPro.selectById(email);
+            if (member == null) throw new LoginFailException();
+            if (!member.matchPassword(passwd)) throw new LoginFailException();
+            
+            User user = new User(member.getEmail(), member.getName());
+            req.getSession().setAttribute("authUser", user);
+            
+        }
+        catch (LoginFailException e)
+        {
+            errors.put("idOrPwNotMatch", Boolean.TRUE);
+            return "member/loginForm";
+        }
+        
+        session.setAttribute("memNum", member.getMemNum());
+        req.setAttribute("memNum", session.getAttribute("memNum"));
+        
+        return "redirect:/main";
+    }
+    
+    private String trim(String str)
+    {
+        return str == null ? null : str.trim();
+    }
+    
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String member_logout(HttpServletRequest req, HttpServletResponse res)
+            throws Exception
+    {
+        HttpSession session = req.getSession(false);
+        if (session != null)
+        {
+            session.invalidate();
+        }
+        return "redirect:/main";
+    }
 
 	@RequestMapping(value = "mypage", method = RequestMethod.GET)
 	public String mypage(HttpServletRequest request, int memNum, Model m) throws Exception {
 		HttpSession session = request.getSession();
-
-		// int memNum = Integer.parseInt(request.getParameter("memNum"));
+		
 		int loginNum = 0;
 
 		if (session.getAttribute("memNum") == null) {
@@ -191,43 +180,29 @@ public class MemberController {
 
 		return "member/modifyForm";
 	}
-
-	/*
-	 * @RequestMapping(value="modifyPro", method=RequestMethod.POST) public
-	 * String modifyPro(HttpServletRequest request, HttpServletResponse
-	 * response) throws Exception { HttpSession session = request.getSession();
-	 * 
-	 * String realFolder=""; String saveFolder="uploadFile"; String
-	 * encType="UTF-8"; int maxSize=10*1024*1024;
-	 * 
-	 * Member member=new Member();
-	 * 
-	 * ServletContext context=request.getServletContext();
-	 * realFolder=context.getRealPath(saveFolder); try{ MultipartRequest
-	 * multi=new MultipartRequest(request, realFolder, maxSize, encType, new
-	 * DefaultFileRenamePolicy());
-	 * 
-	 * Enumeration files=multi.getFileNames();
-	 * 
-	 * if(files.hasMoreElements()){ String name=(String)files.nextElement();
-	 * File file=multi.getFile(name); if(file!=null){
-	 * member.setProfile(file.getName()); }else{
-	 * member.setProfile(multi.getParameter("profile")); } }
-	 * 
-	 * member.setMemNum(Integer.parseInt(multi.getParameter("memNum")));
-	 * member.setPasswd(multi.getParameter("passwd"));
-	 * member.setName(multi.getParameter("name"));
-	 * member.setSelfIntroduction(multi.getParameter("selfIntroduction"));
-	 * 
-	 * MybatisMemberDao service = MybatisMemberDao.getInstance();
-	 * System.out.println("111111111"); int check =
-	 * service.updateMember(member);
-	 * 
-	 * request.setAttribute("check", check); request.setAttribute("member",
-	 * member); }catch(Exception e){ e.printStackTrace(); }
-	 * 
-	 * return "/view/member/modifyPro.jsp"; }
-	 */
+	
+	@RequestMapping(value = "modifyPro", method = RequestMethod.POST)
+	public String modifyPro(MultipartHttpServletRequest multipart, Member member, Model m) throws Exception {
+		MultipartFile multi=multipart.getFile("uploadfile");
+		
+		String filename=multi.getOriginalFilename();
+		if(filename!=null && !filename.equals("")){
+			String uploadPath=multipart.getRealPath("/")+"/uploadFile";
+			System.out.println(uploadPath);
+			
+			FileCopyUtils.copy(multi.getInputStream(), new FileOutputStream(uploadPath+"/"+member.getMemNum()+multi.getOriginalFilename()));
+			
+			member.setProfile(member.getMemNum()+filename);;
+		}else{
+			member.setProfile(member.getProfile());
+			
+		}
+		int check = dbPro.updateMember(member);
+		m.addAttribute("check", check);
+		
+		return "member/modifyPro";
+	}
+	 
 
 	@RequestMapping(value = "follow", method = RequestMethod.GET)
 	public String follow(HttpServletRequest request, int memNum, Model m) throws Exception {
