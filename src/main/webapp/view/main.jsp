@@ -48,7 +48,7 @@
 	<div class="inner">
 		<ul class="itemcard-list">
 			<c:if test="${count==0 }">
-				<h1 style="font-size: 100px">등록된 물품이 없습니다.</h1>
+				<h1 style="font-size: 100px">등록된 물품이 없습니다.ㄹㄹ</h1>
 			</c:if>
 			<c:if test="${count != 0 }">
 
