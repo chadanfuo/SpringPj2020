@@ -28,7 +28,16 @@ import util.JdbcUtil;
 public class MemberController {
 	@Autowired
 	MybatisMemberDao dbPro;
-
+	
+	/*private String[] ingredients_split(String ingredients){
+		String str = ingredients;
+		String[] array = str.split("#");
+		for (String ingredient : array) {
+			System.out.println("split : " + ingredient);
+		}
+		return array;
+	}*/
+	
 	public void initProcess(HttpServletRequest request, HttpServletResponse response) {
 	}
 
