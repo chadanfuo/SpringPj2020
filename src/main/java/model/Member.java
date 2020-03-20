@@ -20,12 +20,11 @@ public class Member implements Serializable{
 		this.passwd = passwd;
 	}
     
-    public Member(String email, String name, String passwd, String confirmpasswd, String profile) {
+    public Member(String email, String name, String passwd, String confirmpasswd) {
 		this.email = email;
 		this.name = name;
 		this.passwd = passwd;
 		this.confirmpasswd = confirmpasswd;
-		this.profile=profile;
 	}
     
    
