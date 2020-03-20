@@ -34,7 +34,7 @@ public class MemberController {
 		String[] array = str.split("#");
 		for (String ingredient : array) {
 			System.out.println("split : " + ingredient);
-		}
+		}asdfasdf
 		return array;
 	}*/
 	
