@@ -218,7 +218,7 @@ a:visited{
 		<ul class="lst_recipe">
 			<c:if test="${loginNum==member.memNum}">
 			<li class="btn_add">
-				<a href="#"><h1 style="margin: 0px;">+</h1><br>나의 레시피 추가하기</a>
+				<a href="<%=request.getContextPath()%>/rcp/writeForm"><h1 style="margin: 0px;">+</h1><br>나의 레시피 추가하기</a>
 			</li>
 			</c:if>
 			<li class="no-recipes">

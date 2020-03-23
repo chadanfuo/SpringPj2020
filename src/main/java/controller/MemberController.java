@@ -33,13 +33,12 @@ public class MemberController {
 	@Autowired
 	MybatisMemberDao dbPro;
 
-	public void initProcess(HttpServletRequest request,
+	/*public void initProcess(HttpServletRequest request,
             HttpServletResponse response)
-    {   }    
+    {   }*/    
     
     @RequestMapping(value = "join", method = RequestMethod.GET)
-    public String member_joinForm(HttpServletRequest req,
-            HttpServletResponse res) throws Exception
+    public String member_joinForm() throws Exception
     {
         return "member/joinForm";
     }
@@ -78,8 +77,7 @@ public class MemberController {
         }
       
     @RequestMapping(value = "login")
-    public String member_loginForm(HttpServletRequest req,
-            HttpServletResponse res) throws Exception
+    public String member_loginForm() throws Exception
     {
         return "member/loginForm";
     }
@@ -88,10 +86,7 @@ public class MemberController {
     public String member_loginPro(HttpServletRequest req,String email,String passwd) throws Exception
     {
        HttpSession session = req.getSession();
-       
-      /*  String email = trim(req.getParameter("email"));
-        String passwd = trim(req.getParameter("passwd"));
-        */
+ 
         Member member=null;
         
         Map<String, Boolean> errors = new HashMap<>();

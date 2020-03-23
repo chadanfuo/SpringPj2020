@@ -18,6 +18,12 @@ img {
     height: 130px;
     border-radius: 50%;
 }
+#profile {
+	display: none;
+}
+#profileImg {
+	cursor:pointer;
+}				
 </style>
 
 <script type="text/javascript">
@@ -53,11 +59,10 @@ img {
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
-					<img id="profileImg" src="<%=request.getContextPath()%>/uploadFile/${member.profile}">
+					<img id="profileImg" src="<%=request.getContextPath()%>/uploadFile/${member.profile}"
+						onclick="document.getElementById('profile').click();">				
 					<br>
-					<style>#profile {display: none;}</style>
-					<input type='file' id="profile" name="uploadfile" value="${member.profile}" onchange="readyImg(this)"> 
-					<input type="button" value="프로필 변경" onclick="document.getElementById('profile').click();" > 
+					<input type='file' id="profile" name="uploadfile" value="${member.profile}" onchange="readyImg(this)">  
 				</td>
 			</tr>
 			<tr>

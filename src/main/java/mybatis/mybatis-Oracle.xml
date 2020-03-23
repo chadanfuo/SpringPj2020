@@ -3,9 +3,15 @@
 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+	<settings>
+      <setting name="jdbcTypeForNull" value="NULL"/>
+   	</settings>
+	
 	<typeAliases>						
 		<typeAlias type="model.Member" alias="Member" />
 		<typeAlias type="model.Follow" alias="Follow" />
+		<typeAlias type="model.Rcp" alias="Rcp"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -20,5 +26,6 @@
 	</environments>
 	<mappers>
 		<mapper resource="mybatis/MemberMapper.xml" />
+		<mapper resource="mybatis/RcpMapper.xml" />
 	</mappers>
 </configuration>
