@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import model.Rcp;
-import mybatis.MybatisRcpDaoMysql;
+import service.MybatisRcpDaoMysql;
 
 @Controller
 @RequestMapping("/rcp/")

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import model.Member;
-import mybatis.MybatisMemberDao;
+import service.MybatisMemberDao;
 
 @Controller
 public class MainController {

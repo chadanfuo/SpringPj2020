@@ -29,11 +29,10 @@
 	
 	<!-- <mvc:resources location="/images/, /WEB-INF/resources/" mapping="/images/**" cache-period="60"/> -->
 	
-	<bean class="mybatis.MybatisMemberDao">
-		<property name="dbname" value="Oracle"/>
-	</bean>
-	<bean class="mybatis.MybatisRcpDaoMysql">
-		<property name="dbname" value="Oracle"/>
+	<bean class="mybatis.AbstractRepository">
+		<constructor-arg>
+			<value>Oracle</value>
+		</constructor-arg>
 	</bean>
 	
 </beans>

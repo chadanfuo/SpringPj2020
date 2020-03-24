@@ -1,21 +1,27 @@
-package mybatis;
+package service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.Follow;
 import model.Member;
 import mybatis.AbstractRepository;
 
-public class MybatisMemberDao extends AbstractRepository
+@Component
+public class MybatisMemberDao
 {
     private final String namespace = "mybatis.MemberMapper";
 
+    @Autowired
+	public AbstractRepository opendb;
+    
     public Member selectById(String email) 
     {
-        SqlSession sqlSession = getSqlSessionFactory().openSession();
+        SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
         try
         {
             String statement = namespace + ".selectById";
@@ -29,7 +35,7 @@ public class MybatisMemberDao extends AbstractRepository
     
     public void insert(Member mem) 
     {
-        SqlSession sqlSession = getSqlSessionFactory().openSession();
+        SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
         int number;
         
         try
@@ -48,7 +54,7 @@ public class MybatisMemberDao extends AbstractRepository
     }
     
     public int getProfileCount(){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		int count;
 		
 		try{
@@ -62,7 +68,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public List<Member> getProfile(){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		List<Member> profileList=null;
 		
 		try{
@@ -76,7 +82,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public Member getMember(int memNum){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		Member member=null;
 		
 		try{
@@ -90,7 +96,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public int updateMember(Member member) throws Exception{
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		String dbpasswd="";
 		int x=-1;
 		
@@ -111,7 +117,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public int insertFollow(Follow follow){
-		 SqlSession sqlSession = getSqlSessionFactory().openSession();	   
+		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	   
 		 int check;
 		 
 	        try
@@ -133,7 +139,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public int checkFollow(int loginNum, int memNum){
-		SqlSession sqlSession = getSqlSessionFactory().openSession();	  		
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	  		
 		int checkFollow=-1;		
 		
 		Map map=new HashMap();
@@ -153,7 +159,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public void unFollow(Follow follow){
-		 SqlSession sqlSession = getSqlSessionFactory().openSession();	   
+		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	   
 		 
 	        try
 	        {
@@ -168,7 +174,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public int followCount(int memNum){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		int count;
 		
 		try{
@@ -182,7 +188,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public int followerCount(int memNum){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		int count;
 		
 		try{
@@ -196,7 +202,7 @@ public class MybatisMemberDao extends AbstractRepository
 	}
 	
 	public List<Member> followList(int memNum){
-		SqlSession sqlSession=getSqlSessionFactory().openSession();
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		List<Member> followList=null;
 		String statement;
 		

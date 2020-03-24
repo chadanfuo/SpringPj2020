@@ -1,17 +1,22 @@
-package mybatis;
+package service;
 
 import org.apache.ibatis.session.SqlSession;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.Rcp;
 import mybatis.AbstractRepository;
 
-public class MybatisRcpDaoMysql extends AbstractRepository {
+@Component
+public class MybatisRcpDaoMysql{
 	private final String namespace = "mybatis.RcpMapper";
+	
+	@Autowired
+	public AbstractRepository opendb;
 
 	public void insertRcp(Rcp rcp) {
 
-		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		int rcpNum;
 		
 		try {

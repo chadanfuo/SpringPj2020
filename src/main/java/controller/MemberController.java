@@ -24,7 +24,7 @@ import exception.LoginFailException;
 import model.Follow;
 import model.Member;
 import model.User;
-import mybatis.MybatisMemberDao;
+import service.MybatisMemberDao;
 import util.JdbcUtil;
 
 @Controller
