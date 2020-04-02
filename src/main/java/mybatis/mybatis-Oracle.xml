@@ -12,6 +12,9 @@
 		<typeAlias type="model.Member" alias="Member" />
 		<typeAlias type="model.Follow" alias="Follow" />
 		<typeAlias type="model.Rcp" alias="Rcp"/>
+		<typeAlias type="model.RcpContent" alias="RcpContent"/>
+		<typeAlias type="model.Ingredient" alias="Ingredient"/>
+		<typeAlias type="model.Category" alias="Category"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

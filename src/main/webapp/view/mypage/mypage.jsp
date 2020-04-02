@@ -140,6 +140,48 @@ ol, ul {
     background-color: #fff;
     margin: 0 0 16px 16px;
 }
+.lst_recipe li .call_recipe {
+    display: block;
+    margin: 4px;
+    position: relative;
+}
+.lst_recipe li .call_recipe img {
+    width: 234px;
+    height: 234px;
+    display: block;
+}
+.lst_recipe li .author {
+    text-align: center;
+    width: 100%;
+    z-index: 5;
+    display: block;
+    margin-top: -40px;
+    position: relative;
+}
+.lst_recipe li .author img {
+    width: 61px;
+    height: 61px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto 5px;
+}
+.lst_recipe li p {
+    text-align: center;
+    font-size: 15px;
+    font-family: Microsoft YaHei,'NSB';
+    line-height: 19px;
+    letter-spacing: -0.025em;
+    padding: 2px 20px 0;
+}
+.lst_recipe li p strong {
+    display: block;
+    overflow: hidden;
+    margin-top: 5px;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 li.btn_add a {
     position: absolute;
     top: 0;
@@ -221,13 +263,32 @@ a:visited{
 				<a href="<%=request.getContextPath()%>/rcp/writeForm"><h1 style="margin: 0px;">+</h1><br>나의 레시피 추가하기</a>
 			</li>
 			</c:if>
+			
+			<c:if test="${rcpCount==0}">
 			<li class="no-recipes">
 				<div class="no-content">
 				아직 등록하신 레시피가 없습니다.
-				<br>
-				나만의 레시피를 등록해 주세요.
 				</div>
 			</li>
+			</c:if>
+			
+			<c:if test="${rcpCount!=0}">
+			<c:forEach var="rcpList" items="${rcpList}">
+			<li>
+				<a href="" class="call_recipe">
+					<img src="<%=request.getContextPath()%>/uploadRcpFile/${rcpList.thumbnail}">
+				</a>
+				<span class="author">
+					<a href="">
+						<img src="<%=request.getContextPath()%>/uploadFile/${rcpList.profile}">
+					</a>
+				</span>
+				<p>
+					<a href=""><strong>${rcpList.title}</strong><p>${rcpList.subtitle}</p></a>
+				</p>
+			</li>
+			</c:forEach>
+			</c:if>		
 		</ul>
 	</div>
 	

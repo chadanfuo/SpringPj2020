@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import model.Follow;
 import model.Member;
+import model.Rcp;
 import mybatis.AbstractRepository;
 
 @Component
@@ -214,5 +215,34 @@ public class MybatisMemberDao
 		}
 
 		return followList;
+	}
+	
+	public int rcpCount(int memNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".rcpCount"; 
+			count=sqlSession.selectOne(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
+	}
+	
+	public List<Rcp> rcpList(int memNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> rcpList=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpList";         
+			rcpList=sqlSession.selectList(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpList;
 	}
 }

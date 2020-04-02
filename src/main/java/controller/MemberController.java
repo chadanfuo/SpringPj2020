@@ -23,6 +23,7 @@ import exception.DuplicateldException;
 import exception.LoginFailException;
 import model.Follow;
 import model.Member;
+import model.Rcp;
 import model.User;
 import service.MybatisMemberDao;
 import util.JdbcUtil;
@@ -156,6 +157,10 @@ public class MemberController {
 		int followCount = dbPro.followCount(memNum);
 		int followerCount = dbPro.followerCount(memNum);
 		List<Member> followList = dbPro.followList(memNum);
+		
+		int rcpCount = dbPro.rcpCount(memNum);
+		List<Rcp> rcpList=dbPro.rcpList(memNum);
+		System.out.println(rcpList.size());
 
 		m.addAttribute("loginNum", loginNum);
 
@@ -164,6 +169,8 @@ public class MemberController {
 		m.addAttribute("followCount", followCount);
 		m.addAttribute("followerCount", followerCount);
 		m.addAttribute("followList", followList);
+		m.addAttribute("rcpCount", rcpCount);
+		m.addAttribute("rcpList", rcpList);
 
 		return "mypage/mypage";
 	}
@@ -182,15 +189,11 @@ public class MemberController {
 		
 		String filename=multi.getOriginalFilename();
 		if(filename!=null && !filename.equals("")){
-			String uploadPath=multipart.getRealPath("/")+"/uploadFile";
-			System.out.println(uploadPath);
-			
+			String uploadPath=multipart.getRealPath("/")+"/uploadFile";			
 			FileCopyUtils.copy(multi.getInputStream(), new FileOutputStream(uploadPath+"/"+member.getMemNum()+multi.getOriginalFilename()));
-			
 			member.setProfile(member.getMemNum()+filename);;
 		}else{
-			member.setProfile(member.getProfile());
-			
+			member.setProfile(member.getProfile());			
 		}
 		int check = dbPro.updateMember(member);
 		m.addAttribute("check", check);

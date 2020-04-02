@@ -4,11 +4,10 @@ import java.io.Serializable;
 
 public class RcpContent implements Serializable {
 	
-	int rcpNum;
-	int step; //step int, 레시피 순서(단계)
-	int fileSize; //fileSize int,
-	String fileName; //fileName varchar(30),
-	String content; //content varchar(100)
+	private int rcpNum;
+	private int step; //step int, 레시피 순서(단계)
+	private String fileName; //fileName varchar(30),
+	private String content; //content varchar(100)
 	
 	public RcpContent() {} //디폴트 생성자
 
@@ -28,14 +27,6 @@ public class RcpContent implements Serializable {
 		if (step == 0) 
 			step=0;
 		this.step = step;
-	}
-
-	public int getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(int fileSize) {
-		this.fileSize = fileSize;
 	}
 
 	public String getFileName() {

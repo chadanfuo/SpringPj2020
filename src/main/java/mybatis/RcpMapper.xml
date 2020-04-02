@@ -10,7 +10,22 @@
 	
 	<insert id="insert1" parameterType="Rcp">
 		insert into Rcp 
-		values(#{rcpNum},#{title},#{foodName},#{subtitle},#{ingredient},#{quantity},#{cookingTime},#{memNum},sysdate,#{thumbNail},#{hashTag})
+		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category})
 	</insert>
+	
+	<insert id="insertIngredient" parameterType="Ingredient">
+		insert into ingredient 
+		values(#{rcpNum},#{ingredient},#{quantity})
+	</insert>
+	
+	<insert id="insertRcpContent" parameterType="RcpContent">
+		insert into RcpContent 
+		values(#{rcpNum},#{step},#{fileName},#{content})
+	</insert>
+	
+	<select id="getCategory" resultType="Category">
+		select * 
+		from category
+	</select>
 	
 </mapper>
